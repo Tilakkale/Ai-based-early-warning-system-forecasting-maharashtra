@@ -1,0 +1,322 @@
+.district-container {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.district-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.district-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #14b8a6 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.sort-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.sort-select {
+  padding: 12px 16px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid rgba(20, 184, 166, 0.3);
+  border-radius: 8px;
+  color: #f1f5f9;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sort-select:hover {
+  border-color: #14b8a6;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #14b8a6;
+  box-shadow: 0 0 15px rgba(20, 184, 166, 0.3);
+}
+
+.stats-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.stat-item {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  animation: slideUp 0.6s ease-out;
+}
+
+.stat-item.high {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.stat-item.moderate {
+  border-color: rgba(235, 179, 8, 0.5);
+}
+
+.stat-item.safe {
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.stat-icon {
+  font-size: 1.5rem;
+}
+
+.stat-text {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.district-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.district-card {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(20, 184, 166, 0.2);
+  border-radius: 16px;
+  padding: 25px;
+  animation: cardSlideUp 0.6s ease-out both;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.district-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+}
+
+.district-card.high {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.district-card.high:hover {
+  border-color: rgba(239, 68, 68, 0.7);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);
+}
+
+.district-card.moderate {
+  border-color: rgba(235, 179, 8, 0.4);
+}
+
+.district-card.moderate:hover {
+  border-color: rgba(235, 179, 8, 0.7);
+  box-shadow: 0 0 30px rgba(235, 179, 8, 0.2);
+}
+
+.district-card.low {
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.district-card.low:hover {
+  border-color: rgba(16, 185, 129, 0.7);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
+}
+
+.district-card:hover {
+  transform: translateY(-8px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 15px;
+  position: relative;
+  z-index: 1;
+}
+
+.district-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.risk-badge {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.risk-badge.high {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
+.risk-badge.moderate {
+  background: rgba(235, 179, 8, 0.2);
+  color: #fde047;
+  border: 1px solid rgba(235, 179, 8, 0.5);
+}
+
+.risk-badge.low {
+  background: rgba(16, 185, 129, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.card-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.metric-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.metric {
+  background: rgba(15, 23, 42, 0.6);
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.metric-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #14b8a6;
+  font-family: "Playfair Display", serif;
+}
+
+.card-footer {
+  padding-top: 15px;
+  border-top: 1px solid rgba(20, 184, 166, 0.2);
+  position: relative;
+  z-index: 1;
+}
+
+.action-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(20, 184, 166, 0.1));
+  border: 2px solid rgba(20, 184, 166, 0.5);
+  border-radius: 8px;
+  color: #14b8a6;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn:hover {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.5), rgba(20, 184, 166, 0.3));
+  border-color: #14b8a6;
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.3);
+}
+
+.district-loading,
+.district-error {
+  padding: 60px 40px;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #cbd5e1;
+}
+
+.district-error {
+  color: #ef4444;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .district-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .district-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .district-title {
+    font-size: 1.8rem;
+  }
+
+  .district-container {
+    padding: 20px;
+  }
+
+  .metric-row {
+    grid-template-columns: 1fr;
+  }
+}

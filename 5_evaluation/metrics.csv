@@ -1,0 +1,3 @@
+,dataset,model,accuracy,f1_score
+dengue_risk,augmented,dengue_risk,0.9851632047477744,0.9851632047477744
+malaria_binary,augmented,malaria_binary,0.7270029673590505,0.5806451612903226

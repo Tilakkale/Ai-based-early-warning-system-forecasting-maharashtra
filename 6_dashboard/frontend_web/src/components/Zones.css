@@ -1,0 +1,84 @@
+.zones-container {
+  padding: 30px;
+  color: var(--text-primary);
+}
+
+.zones-title {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  color: var(--primary-light);
+}
+
+.zones-summary {
+  background: rgba(30, 41, 59, 0.8);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.zones-main {
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.zones-main h3 {
+  margin-bottom: 10px;
+}
+
+.zones-main-details span {
+  display: block;
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+.zones-section {
+  margin-top: 20px;
+}
+
+.zone-card {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.zone-card:hover {
+  background: rgba(20, 184, 166, 0.1);
+}
+
+.zone-card.fire {
+  border-left: 4px solid var(--danger);
+}
+
+.zone-card.moderate {
+  border-left: 4px solid var(--warning);
+}
+
+.zone-card.silent {
+  border-left: 4px solid var(--success);
+}
+
+.zone-metrics {
+  font-size: 0.85rem;
+  margin-top: 4px;
+  display: flex;
+  gap: 12px;
+}
+
+.zones-empty {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.zones-loading,
+.zones-error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.1rem;
+}
