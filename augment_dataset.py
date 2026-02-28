@@ -28,43 +28,64 @@ categorical_cols = ['district', 'year', 'week_of_outbreak', 'mon', 'season_code'
 # ================================
 
 def augment_with_variations(df_in, augmentation_factor=3):
-    """Create synthetic samples by adding small variations to existing samples."""
-    
+    """Create synthetic samples by adding small variations to existing samples.
+
+    The original implementation assumed the presence of both ``dengue_risk`` and
+    ``malaria_risk`` columns.  When calling this function on the malaria-binary
+    dataset those columns are absent, which raised a ``KeyError``.  The revised
+    version is more flexible:
+
+    * it automatically detects whatever risk-related columns are available
+      (``dengue_risk``, ``malaria_risk`` or ``malaria_risk_binary``) and groups
+      by their unique combinations using ``DataFrame.groupby``;
+    * if no risk column is found the entire dataframe is treated as one group
+      (useful for datasets without explicit risk labels).
+    """
+
     augmented_samples = []
-    
-    # Group by target classes to create balanced augmentation
-    for dengue_risk_val in df_in['dengue_risk'].unique():
-        for malaria_risk_val in df_in['malaria_risk'].unique():
-            subset = df_in[
-                (df_in['dengue_risk'] == dengue_risk_val) & 
-                (df_in['malaria_risk'] == malaria_risk_val)
-            ]
-            
-            if len(subset) == 0:
-                continue
-                
-            # For each sample in this class combination, create variations
-            for idx, row in subset.iterrows():
-                for _ in range(augmentation_factor):
-                    new_row = row.copy()
-                    
-                    # Add small gaussian noise to numeric features
-                    for col in numeric_cols:
-                        if col in new_row:
-                            # Add noise: 5-8% of column value or std dev
-                            noise_std = abs(new_row[col]) * 0.05 + 0.01
-                            noise = np.random.normal(0, noise_std)
-                            new_row[col] = max(0, new_row[col] + noise)
-                    
-                    # Randomly modify week/month slightly
-                    if 'week_of_outbreak' in new_row:
-                        weeks = int(new_row['week_of_outbreak'].replace('st', '').replace('nd', '').replace('rd', '').replace('th', '').split()[0])
-                        weeks = max(1, min(52, weeks + random.randint(-1, 1)))
-                        week_str = ['st', 'nd', 'rd', 'th'][(weeks-1) % 4] if weeks <= 4 else 'th'
-                        new_row['week_of_outbreak'] = f"{weeks}{week_str} week"
-                    
-                    augmented_samples.append(new_row)
-    
+
+    # determine which risk columns exist in the input frame
+    risk_cols = [c for c in ['dengue_risk', 'malaria_risk', 'malaria_risk_binary']
+                 if c in df_in.columns]
+
+    if risk_cols:
+        # iterate over unique combinations using groupby
+        grouped = df_in.groupby(risk_cols)
+    else:
+        # fall back to entire dataframe in case no risk columns are present
+        grouped = [((), df_in)]
+
+    for _, subset in grouped:
+        if len(subset) == 0:
+            continue
+
+        # create variations for each row in this group
+        for idx, row in subset.iterrows():
+            for _ in range(augmentation_factor):
+                new_row = row.copy()
+
+                # Add small gaussian noise to numeric features
+                for col in numeric_cols:
+                    if col in new_row:
+                        # Add noise: 5-8% of column value or std dev
+                        noise_std = abs(new_row[col]) * 0.05 + 0.01
+                        noise = np.random.normal(0, noise_std)
+                        new_row[col] = max(0, new_row[col] + noise)
+
+                # Randomly modify week/month slightly
+                if 'week_of_outbreak' in new_row:
+                    weeks = int(new_row['week_of_outbreak']
+                                .replace('st', '')
+                                .replace('nd', '')
+                                .replace('rd', '')
+                                .replace('th', '')
+                                .split()[0])
+                    weeks = max(1, min(52, weeks + random.randint(-1, 1)))
+                    week_str = ['st', 'nd', 'rd', 'th'][(weeks-1) % 4] if weeks <= 4 else 'th'
+                    new_row['week_of_outbreak'] = f"{weeks}{week_str} week"
+
+                augmented_samples.append(new_row)
+
     return pd.DataFrame(augmented_samples)
 
 # ================================
@@ -168,6 +189,39 @@ if len(high_risk_ops) > 0:
         new_sample = template.copy()
         new_sample['temp_c'] = min(1.0, template['temp_c'] + abs(np.random.normal(0.04, 0.02)))
         new_sample['rainfall'] = template['rainfall'] + abs(np.random.normal(0.12, 0.06))
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\tilak>echo "# AI-Based-Early-Warning-System-for-Forecasting-in-maharashtra" >> README.md
+
+C:\Users\tilak>git init
+Reinitialized existing Git repository in C:/Users/tilak/.git/
+
+C:\Users\tilak>git add README.md
+
+C:\Users\tilak>git commit -m "first commit"
+Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'tilak@LAPTOP-2TGORQS7.(none)')
+
+C:\Users\tilak>git branch -M main
+
+C:\Users\tilak>git remote add origin https://github.com/Tilakkale/AI-Based-Early-Warning-System-for-Forecasting-in-maharashtra.git
+error: remote origin already exists.
+
+C:\Users\tilak>git push -u origin main
+error: src refspec main does not match any
+error: failed to push some refs to 'https://github.com/Tilakkale/AI-Based-Early-Warning-System-for-Forecasting-in-maharashtra.git'
         new_sample['humidity'] = min(1.0, template['humidity'] + abs(np.random.normal(0.08, 0.04)))
         new_sample['malaria_cases'] = int(template['malaria_cases'] + abs(np.random.normal(10, 5)))
         new_sample['malaria_risk_binary'] = 1
